@@ -3,13 +3,13 @@
 
 cameraSpeedX = obj_player.playerSpeedX
 cameraSpeedY = obj_player.playerSpeedY
+cameraRadius = point_distance(camX, camY, obj_player.x, obj_player.y)
 
 var camera = camera_get_active()
 
 var camOriginX = camX
 var camOriginY = camY
 var camOriginZ = camZ
-cameraRadius = point_distance(camX, camY, obj_player.x, obj_player.y)
 
 if (keyboard_check(ord("A")) == true)
 {
