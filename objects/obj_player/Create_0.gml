@@ -4,14 +4,20 @@
 z = depth
 depth = 0
 
+randomize()
+var posIndex = irandom_range(1, obj_world_builder.l)
+
+x = obj_world_builder.waterTileList[0][posIndex]
+y = obj_world_builder.waterTileList[1][posIndex]
+
 backsideX = x
 backsideY = y
 
 playerSpeedX = 0
 playerSpeedY = 0
-playerSpeedMultiplier = 5
+playerSpeedMultiplier = sprite_height/16
 
-if (x >= 0)
+if (x >= room_width/2)
 {
 	backsideX += 1
 }
@@ -20,7 +26,7 @@ else
 	backsideX -= 1
 }
 
-if (y >= 0)
+if (y >= room_height/2)
 {
 	backsideY += 1
 }

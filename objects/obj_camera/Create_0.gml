@@ -8,14 +8,16 @@ camZ = -obj_player.sprite_height
 cameraSpeedX = 0
 cameraSpeedY = 0
 cameraSpeedMultiplier = obj_player.playerSpeedMultiplier
-cameraLookSensitivity = 3
+cameraLookSensitivity = obj_player.playerSpeedMultiplier/2
+
+viewMiniMap = false
 
 function distanceCorrection()
 {
-	var lookDistance = 127
-	var lookHeight = 16
+	var lookDistance = obj_player.sprite_height-1
+	var lookHeight = obj_player.sprite_height/8
 	
-	if (camX >= 0)
+	if (camX >= room_width/2)
 	{
 		camX += lookDistance
 	}
@@ -24,7 +26,7 @@ function distanceCorrection()
 		camX -= lookDistance
 	}
 
-	if (camY >= 0)
+	if (camY >= room_height/2)
 	{
 		camY += lookDistance
 	}
