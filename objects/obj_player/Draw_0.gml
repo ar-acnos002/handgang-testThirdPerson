@@ -5,8 +5,7 @@
 if (obj_camera.viewMiniMap)
 {
 	sprite_index = spr_minimap_player
-	image_blend = make_color_hsv(0, 0, 255)
-	draw_sprite_ext(sprite_index, image_index, x, y, 1, 1, 0, image_blend, 100)
+	draw_sprite(sprite_index, image_index, x, y)
 }
 else
 {
@@ -21,7 +20,7 @@ else
 	matrix_set(matrix_world, transMat)
 
 	//sprite_index = spr_1P
-	sprite_index = spr_1P
+	sprite_index = spr_player_boat
 	draw_sprite(sprite_index, image_index, 0, 0)
 
 	matrix_set(matrix_world, matrix_build_identity())

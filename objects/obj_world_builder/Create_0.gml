@@ -21,7 +21,7 @@ for (var i = 0; i < room_width; i += tileX)
 		randomize()
 		var tileChance = irandom_range(1, 100)
 		
-		if (tileChance > 70)
+		if (tileChance > 75)
 		{
 			var tileIndex = 1
 			tilemap_set_at_pixel(worldTileMap, tileIndex, i, j)
@@ -35,7 +35,7 @@ for (var i = 0; i < room_width; i += tileX)
 				randomize()
 				tileChance = irandom_range(1, 100)
 				
-				if (tileChance <= 70)
+				if (tileChance <= 75)
 				{
 					tempIndex = 1
 				}
