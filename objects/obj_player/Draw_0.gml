@@ -1,7 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-
 if (obj_camera.viewMiniMap)
 {
 	sprite_index = spr_minimap_player
@@ -30,74 +29,56 @@ else
 	#endregion
 
 	#region movement
-
-	playerSpeedX = 0
-	playerSpeedY = 0
-
+	
 	if (keyboard_check(ord("W")) == true)
 	{
-		var camX = obj_camera.camX
-		var camY = obj_camera.camY
-
-		playerSpeedX = abs(x - camX)
-		playerSpeedY = abs(y - camY)
-
-		if (playerSpeedX > playerSpeedY)
-		{
-			playerSpeedY = playerSpeedY/playerSpeedX
-			playerSpeedX = 1
-
-		}
-		else
-		{
-			playerSpeedX = playerSpeedX/playerSpeedY
-			playerSpeedY = 1
-		}
-
-		if (x < camX)
-		{
-			playerSpeedX *= -1
-		}
-		if (y < camY)
-		{
-			playerSpeedY *= -1
-		}
+		var cameraAngle = obj_camera.cameraAngle
+		
+		var playerDirection = cameraAngle + 180
+		
+		playerSpeedX = playerSpeedMultiplier*dcos(playerDirection)
+		playerSpeedY = -1*playerSpeedMultiplier*dsin(playerDirection)
+		
+		x += playerSpeedX
+		y += playerSpeedY
 	}
-
-	//else if (keyboard_check(ord("S")) == true)
+	
+	//if (keyboard_check(ord("S")) == true)
 	//{
-	//	var camX = obj_camera.camX
-	//	var camY = obj_camera.camY
-
-	//	playerSpeedX = abs(x - camX)
-	//	playerSpeedY = abs(y - camY)
-
-	//	if (playerSpeedX > playerSpeedY)
-	//	{
-	//		playerSpeedY = playerSpeedY/playerSpeedX
-	//		playerSpeedX = 1
-
-	//	}
-	//	else
-	//	{
-	//		playerSpeedX = playerSpeedX/playerSpeedY
-	//		playerSpeedY = 1
-	//	}
-
-	//	if (x > camX)
-	//	{
-	//		playerSpeedX *= -1
-	//	}
-	//	if (y > camY)
-	//	{
-	//		playerSpeedY *= -1
-	//	}
+	//	var cameraAngle = obj_camera.cameraAngle
+		
+	//	var playerDirection = cameraAngle
+		
+	//	playerSpeedX = playerSpeedMultiplier*dcos(playerDirection)
+	//	playerSpeedY = -1*playerSpeedMultiplier*dsin(playerDirection)
+		
+	//	x += playerSpeedX
+	//	y += playerSpeedY
 	//}
-
-	x += playerSpeedX * playerSpeedMultiplier
-	y += playerSpeedY * playerSpeedMultiplier
 
 	#endregion
 
 	#endregion
 }
+
+#region check collision
+
+if (tilemap_get_at_pixel(obj_world_builder.landMap, x+playerSpeedX, y+playerSpeedY) != 0)
+{
+	x = round(x)
+	y = round(y)
+	
+	while (tilemap_get_at_pixel(obj_world_builder.landMap, x, y) == 0)
+	{
+		x += playerSpeedX
+		y += playerSpeedY
+	}
+	
+	while (tilemap_get_at_pixel(obj_world_builder.landMap, x, y) != 0)
+	{
+		x -= playerSpeedX
+		y -= playerSpeedY
+	}
+}
+
+#endregion

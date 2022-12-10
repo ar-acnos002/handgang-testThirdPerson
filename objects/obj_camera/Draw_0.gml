@@ -1,18 +1,25 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-cameraSpeedX = obj_player.playerSpeedX
-cameraSpeedY = obj_player.playerSpeedY
-cameraRadius = point_distance(camX, camY, obj_player.x, obj_player.y)
+var camOriginX = camX
+var camOriginY = camY
+var camOriginZ = camZ
+
+var playerX = obj_player.x
+var playerY = obj_player.y
+var playerHeight = -obj_player.sprite_height
 
 var roomCentreX = room_width/2
 var roomCentreY = room_height/2
 
-var playerX = obj_player.x
-var playerY = obj_player.y
-
-var cameraAngle = point_direction(playerX, playerY, camX, camY)
-show_debug_message("Camera Angle: "+string(cameraAngle))
+if (cameraAngle > 360)
+{
+	cameraAngle -= 360
+}
+else if (cameraAngle < 0)
+{
+	cameraAngle += 360
+}
 
 var camera = camera_get_active()
 
@@ -33,35 +40,29 @@ else
 	viewMiniMap = false
 	
 	#region third person camera
-	
-	var camOriginX = camX
-	var camOriginY = camY
-	var camOriginZ = camZ
 
 	if (keyboard_check(ord("A")) == true)
 	{
 		var newCameraAngle = cameraAngle + 1*cameraLookSensitivity
 		
-		camOriginX = playerX + cameraRadius * dcos(newCameraAngle)
-		camOriginY = playerY - cameraRadius * dsin(newCameraAngle)
+		cameraAngle = newCameraAngle
 	}
 
 	if (keyboard_check(ord("D")) == true)
 	{
 		var newCameraAngle = cameraAngle - 1*cameraLookSensitivity
 		
-		camOriginX = playerX + cameraRadius * dcos(newCameraAngle)
-		camOriginY = playerY - cameraRadius * dsin(newCameraAngle)
+		cameraAngle = newCameraAngle
 	}
-	
-	camOriginX += cameraSpeedX * cameraSpeedMultiplier
-	camOriginY += cameraSpeedY * cameraSpeedMultiplier
 
+	camOriginX = playerX + cameraRadius * dcos(cameraAngle)
+	camOriginY = playerY - cameraRadius * dsin(cameraAngle)
+	
 	camX = camOriginX
 	camY = camOriginY
 	camZ = camOriginZ
 
-	var camViewMat = matrix_build_lookat(camX, camY, camZ, playerX, playerY, -obj_player.sprite_height, 0, 0, 1)
+	var camViewMat = matrix_build_lookat(camX, camY, camZ, playerX, playerY, playerHeight, 0, 0, 1)
 
 	var camProjMat = matrix_build_projection_perspective_fov(72.5, 640/384, 1, 2000)
 	
