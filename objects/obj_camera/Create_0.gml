@@ -5,10 +5,7 @@ var playerX = obj_player.x
 var playerY = obj_player.y
 var playerHeight = -obj_player.sprite_height
 
-var roomCentreX = room_width/2
-var roomCentreY = room_height/2
-
-cameraAngle = point_direction(roomCentreX, roomCentreY, playerX, playerY)
+cameraAngle = obj_player.playerDirection+180
 
 var lookDistance = obj_player.sprite_height-1
 var lookHeight = obj_player.sprite_height/8
@@ -28,7 +25,5 @@ camera_set_proj_mat(camera, camProjMat)
 camera_apply(camera)
 
 cameraRadius = point_distance(camX, camY, playerX, playerY)
-
-cameraLookSensitivity = obj_player.playerSpeedMultiplier/2
 
 viewMiniMap = false

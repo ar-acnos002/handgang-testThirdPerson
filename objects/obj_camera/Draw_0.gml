@@ -12,6 +12,7 @@ var playerHeight = -obj_player.sprite_height
 var roomCentreX = room_width/2
 var roomCentreY = room_height/2
 
+cameraAngle = obj_player.playerDirection+180
 if (cameraAngle > 360)
 {
 	cameraAngle -= 360
@@ -40,20 +41,6 @@ else
 	viewMiniMap = false
 	
 	#region third person camera
-
-	if (keyboard_check(ord("A")) == true)
-	{
-		var newCameraAngle = cameraAngle + 1*cameraLookSensitivity
-		
-		cameraAngle = newCameraAngle
-	}
-
-	if (keyboard_check(ord("D")) == true)
-	{
-		var newCameraAngle = cameraAngle - 1*cameraLookSensitivity
-		
-		cameraAngle = newCameraAngle
-	}
 
 	camOriginX = playerX + cameraRadius * dcos(cameraAngle)
 	camOriginY = playerY - cameraRadius * dsin(cameraAngle)
