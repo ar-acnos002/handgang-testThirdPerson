@@ -1,41 +1,29 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+var playerX = obj_player.x
+var playerY = obj_player.y
+var playerHeight = -obj_player.sprite_height
 
-camX = obj_player.backsideX
-camY = obj_player.backsideY
-camZ = -obj_player.sprite_height
-cameraSpeedX = 0
-cameraSpeedY = 0
-cameraSpeedMultiplier = obj_player.playerSpeedMultiplier
-cameraLookSensitivity = obj_player.playerSpeedMultiplier/2
+cameraAngle = obj_player.playerDirection+180
+
+var lookDistance = obj_player.sprite_height-1
+var lookHeight = obj_player.sprite_height/8
+
+camX = playerX + (dcos(cameraAngle) + lookDistance)
+camY = playerY - (dsin(cameraAngle) + lookDistance)
+camZ = playerHeight - lookHeight
+
+var camera = camera_get_active()
+
+var camViewMat = matrix_build_lookat(camX, camY, camZ, playerX, playerY, playerHeight, 0, 0, 1)
+var camProjMat = matrix_build_projection_perspective_fov(72.5, 640/384, 1, 2000)
+
+camera_set_view_mat(camera, camViewMat)
+camera_set_proj_mat(camera, camProjMat)
+
+camera_apply(camera)
+
+cameraRadius = point_distance(camX, camY, playerX, playerY)
 
 viewMiniMap = false
-
-function distanceCorrection()
-{
-	var lookDistance = obj_player.sprite_height-1
-	var lookHeight = obj_player.sprite_height/8
-	
-	if (camX >= room_width/2)
-	{
-		camX += lookDistance
-	}
-	else
-	{
-		camX -= lookDistance
-	}
-
-	if (camY >= room_height/2)
-	{
-		camY += lookDistance
-	}
-	else
-	{
-		camY -= lookDistance
-	}
-	
-	camZ -= lookHeight
-}
-
-distanceCorrection()

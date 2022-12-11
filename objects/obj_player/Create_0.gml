@@ -12,27 +12,14 @@ y = obj_world_builder.waterTileList[1][posIndex]
 
 sprite_index = spr_player_boat
 
-backsideX = x
-backsideY = y
+var roomCentreX = room_width/2
+var roomCentreY = room_height/2
+
+playerDirection = point_direction(x, y, roomCentreX, roomCentreY)
 
 playerSpeedX = 0
 playerSpeedY = 0
+
 playerSpeedMultiplier = sprite_width/48
 
-if (x >= room_width/2)
-{
-	backsideX += 1
-}
-else
-{
-	backsideX -= 1
-}
-
-if (y >= room_height/2)
-{
-	backsideY += 1
-}
-else
-{
-	backsideY -= 1
-}
+playerLookSensitivity = playerSpeedMultiplier/2

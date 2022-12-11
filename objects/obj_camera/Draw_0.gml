@@ -1,9 +1,26 @@
 /// @description Insert description here
 // You can write your code in this editor
 
-cameraSpeedX = obj_player.playerSpeedX
-cameraSpeedY = obj_player.playerSpeedY
-//cameraRadius = point_distance(camX, camY, obj_player.x, obj_player.y)
+var camOriginX = camX
+var camOriginY = camY
+var camOriginZ = camZ
+
+var playerX = obj_player.x
+var playerY = obj_player.y
+var playerHeight = -obj_player.sprite_height
+
+var roomCentreX = room_width/2
+var roomCentreY = room_height/2
+
+cameraAngle = obj_player.playerDirection+180
+if (cameraAngle > 360)
+{
+	cameraAngle -= 360
+}
+else if (cameraAngle < 0)
+{
+	cameraAngle += 360
+}
 
 var camera = camera_get_active()
 
@@ -13,7 +30,7 @@ if (keyboard_check(vk_space) == true)
 	
 	#region minimap camera
 	
-	camViewMat = matrix_build_lookat(room_width/2, room_height/2, -12000, room_width/2, room_height/2, 0, 0, 1, 0)
+	camViewMat = matrix_build_lookat(roomCentreX, roomCentreY, -12000, roomCentreX, roomCentreY, 0, 0, 1, 0)
 	
 	camProjMat = matrix_build_projection_perspective_fov(35.5, room_width/room_height, 1, 12000)
 	
@@ -24,61 +41,15 @@ else
 	viewMiniMap = false
 	
 	#region third person camera
+
+	camOriginX = playerX + cameraRadius * dcos(cameraAngle)
+	camOriginY = playerY - cameraRadius * dsin(cameraAngle)
 	
-	var camOriginX = camX
-	var camOriginY = camY
-	var camOriginZ = camZ
-
-	if (keyboard_check(ord("A")) == true)
-	{
-		if (camOriginX > obj_player.x)
-		{
-			camOriginY -= cameraLookSensitivity
-		}
-		else
-		{
-			camOriginY += cameraLookSensitivity
-		}
-	
-		if (camOriginY > obj_player.y)
-		{
-			camOriginX += cameraLookSensitivity
-		}
-		else
-		{
-			camOriginX -= cameraLookSensitivity
-		}
-	}
-
-	if (keyboard_check(ord("D")) == true)
-	{
-		if (camOriginX > obj_player.x)
-		{
-			camOriginY += cameraLookSensitivity
-		}
-		else
-		{
-			camOriginY -= cameraLookSensitivity
-		}
-	
-		if (camOriginY > obj_player.y)
-		{
-			camOriginX -= cameraLookSensitivity
-		}
-		else
-		{
-			camOriginX += cameraLookSensitivity
-		}
-	}
-
-	camOriginX += cameraSpeedX * cameraSpeedMultiplier
-	camOriginY += cameraSpeedY * cameraSpeedMultiplier
-
 	camX = camOriginX
 	camY = camOriginY
 	camZ = camOriginZ
 
-	var camViewMat = matrix_build_lookat(camX, camY, camZ, obj_player.x, obj_player.y, -obj_player.sprite_height, 0, 0, 1)
+	var camViewMat = matrix_build_lookat(camX, camY, camZ, playerX, playerY, playerHeight, 0, 0, 1)
 
 	var camProjMat = matrix_build_projection_perspective_fov(72.5, 640/384, 1, 2000)
 	
